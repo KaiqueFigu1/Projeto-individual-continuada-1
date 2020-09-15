@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package br.com.projetoskaique.continuada1;
-public class Memoria {
-    Integer maximo = 0;
-    Integer minimo = 8001;
+
+public class Hardware {
+    Double maximo = 0.0;
+    Double minimo = 8001.0;
+    Double contagem = 0.0;
+    Double soma = 0.0;    
     Double media = 0.0;
 }

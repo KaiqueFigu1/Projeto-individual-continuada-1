@@ -14,38 +14,21 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Tela extends javax.swing.JFrame {
 
-    Cpu cpu1 = new Cpu();
-    Memoria memoria1 = new Memoria();
-    Disco disco1 = new Disco();
+    Hardware cpu1 = new Hardware();
+    Hardware memoria1 = new Hardware();
+    Hardware disco1 = new Hardware();
     
-    void atualizarCpu(Cpu algumCpu, Double algumValor){
-        if(algumCpu.maximo < algumValor){
-            algumCpu.maximo = algumValor;
+    void atualizarHardware(Hardware algumHardware, Double algumValor){
+        if(algumHardware.maximo < algumValor){
+            algumHardware.maximo = algumValor;
         }
-        if(algumCpu.minimo > algumValor){
-            algumCpu.minimo = algumValor;
+        if(algumHardware.minimo > algumValor){
+            algumHardware.minimo = algumValor;
         }
-        algumCpu.media = (algumCpu.maximo + algumCpu.minimo) / 2;
-    }
-    void atualizarDisco(Disco algumDisco, Double algumValor){
-        if(algumDisco.maximo < algumValor){
-            algumDisco.maximo = algumValor;
-        }
-        if(algumDisco.minimo > algumValor){
-            algumDisco.minimo = algumValor;
-        }
-        algumDisco.media = (algumDisco.maximo + algumDisco.minimo) / 2;
-    }
-    void atualizarMemoria(Memoria algumMemoria, Integer algumValor){
-        if(algumMemoria.maximo < algumValor){
-            algumMemoria.maximo = algumValor;
-        }
-        if(algumMemoria.minimo > algumValor){
-            algumMemoria.minimo = algumValor;
-        }
-        algumMemoria.media = (algumMemoria.maximo + algumMemoria.minimo) /2.0;
-    }
-    
+        algumHardware.soma += algumValor;
+        algumHardware.contagem += 1;
+        algumHardware.media = algumHardware.soma / algumHardware.contagem;
+    }   
     
     public Tela() {
         initComponents();
@@ -60,6 +43,7 @@ public class Tela extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         pgrCpu = new javax.swing.JProgressBar();
         pgrDisco = new javax.swing.JProgressBar();
         pgrMemoria = new javax.swing.JProgressBar();
@@ -73,6 +57,17 @@ public class Tela extends javax.swing.JFrame {
         taCpu = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         taMemoria = new javax.swing.JTextArea();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +133,7 @@ public class Tela extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pgrMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(btnLeitura)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -167,29 +163,29 @@ public class Tela extends javax.swing.JFrame {
         pgrMemoria.setMaximum(8000);
         
         Double cpu = ThreadLocalRandom.current().nextDouble(1.4,4.6);
-        atualizarCpu(cpu1, cpu);
+        atualizarHardware(cpu1, cpu);
         taCpu.setText(String.format("Maximo CPU registrado: %.1f\n"
                 + "Minimo CPU registrado: %.1f\n"
                 + "Média CPU registrado: %.2f", cpu1.maximo, cpu1.minimo, cpu1.media));
      
-        Integer memoria = ThreadLocalRandom.current().nextInt(1000,8000);
-        atualizarMemoria(memoria1, memoria);
-        taMemoria.setText(String.format("Maximo memoria registrado: %d\n"
-                + "Minimo memoria registrado: %d\n"
+        Double memoria = ThreadLocalRandom.current().nextDouble(1000,8000);
+        atualizarHardware(memoria1, memoria);
+        taMemoria.setText(String.format("Maximo memoria registrado: %.2f\n"
+                + "Minimo memoria registrado: %.2f\n"
                 + "Media memoria registrado: %.2f", memoria1.maximo, memoria1.minimo, memoria1.media));
         
-        Double disco = ThreadLocalRandom.current().nextDouble(0,100);
-        atualizarDisco(disco1, disco);
+        Double discorandom = ThreadLocalRandom.current().nextDouble(0,100);
+        atualizarHardware(disco1, discorandom);
         taDisco.setText(String.format("Maximo Disco registrado: %.1f\n"
                 + "Minimo Disco registrado: %.1f\n"
                 + "Média Disco registrado: %.2f", disco1.maximo, disco1.minimo, disco1.media));
         
         pgrCpu.setString(String.format("Uso da CPU em Ghz: %.1f GHz", cpu));
         pgrCpu.setValue((int) Math.round(cpu));
-        pgrDisco.setString(String.format("Uso do disco em porcentagem: %.2f", disco));
-        pgrDisco.setValue((int) Math.round(disco));
-        pgrMemoria.setString(String.format("Uso da memoria em MB: %d MB", memoria));
-        pgrMemoria.setValue(memoria);
+        pgrDisco.setString(String.format("Uso do disco em porcentagem: %.2f", discorandom));
+        pgrDisco.setValue((int) Math.round(discorandom));
+        pgrMemoria.setString(String.format("Uso da memoria em MB: %.0f MB", memoria));
+        pgrMemoria.setValue((int) Math.round(memoria));
     }//GEN-LAST:event_btnLeituraActionPerformed
 
     /**
@@ -232,6 +228,7 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
